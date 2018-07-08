@@ -9,11 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeveloperBusiness {
-
     //获取所有 model
     public List<DeveloperModel> getAllDeveloperModels() {
         List<DeveloperModel> developerModelList = new ArrayList<>();
-        String sql = "SELECT * FROM developer";
+        String sql = "SELECT * FROM development";
         DBHelper dbHelper = new DBHelper(sql);
         ResultSet resultSet = null;
         try {
@@ -42,7 +41,7 @@ public class DeveloperBusiness {
 
     //获取单个 model
     public DeveloperModel getDeveloper(String developerId) {
-        String sql = "select * from developer where id=" + developerId;
+        String sql = "select * from development where id=" + developerId;
         DBHelper dbHelper = new DBHelper(sql);
         DeveloperModel developerModel = null;
         try {
@@ -69,13 +68,19 @@ public class DeveloperBusiness {
 
     //新增model
     public boolean addDeveloper(DeveloperModel developerModel) {
-        String sql = "INSERT INTO developer(name,site,avatar) VALUES(" +
-                "'" + developerModel.getName() + "'" +
-                "'" + developerModel.getSite() + "'" +
-                "'" + developerModel.getAvatar() + "'" + ");";
-        System.out.println(sql);
-        DBHelper dbHelper = new DBHelper(sql);
-        return execute(dbHelper);
+        try {
+            String sql = "INSERT INTO development(name,site,avatar) VALUES(" +
+                    "'" + developerModel.getName() + "'," +
+                    "'" + developerModel.getSite() + "'," +
+                    "'" + developerModel.getAvatar() + "'" + ");";
+            System.out.println(sql);
+            DBHelper dbHelper = new DBHelper(sql);
+            dbHelper.preparedStatement.execute(sql);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -90,30 +95,29 @@ public class DeveloperBusiness {
         return false;
     }
 
-    public boolean updateDeveloper(String id,String name){
-        String sql = "UPDATE developer SET name='"+name+"' WHERE id="+id;
-        System.out.println("sql= "+sql);
+    public boolean updateDeveloper(String id, String name) {
+        String sql = "UPDATE development SET name='" + name + "' WHERE id=" + id;
+        System.out.println("sql= " + sql);
         DBHelper dbHelper = new DBHelper(sql);
-        try{
-            boolean isSuccess = false;
-            isSuccess = dbHelper.preparedStatement.execute(sql);
+        try {
+            dbHelper.preparedStatement.execute(sql);
             dbHelper.close();
-            return isSuccess;
-        }catch (SQLException e){
+            return true;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     //删除model
-    public boolean deleteDeveloper(String id){
-        String sql = "DELETE FROM developer WHERE id=" +id;
+    public boolean deleteDeveloper(String id) {
+        String sql = "DELETE FROM development WHERE id=" + id;
         DBHelper dbHelper = new DBHelper(sql);
-        System.out.println("sql= "+sql);
+        System.out.println("sql= " + sql);
         boolean isSuccess;
-        try{
+        try {
             isSuccess = dbHelper.preparedStatement.execute(sql);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             isSuccess = false;
         }

@@ -1,5 +1,7 @@
 package model;
 
+import util.ConstantUtil;
+
 public class CommonModel {
     //code 0:接口请求成功，有数据返回；1：接口请求成功，无数据返回
     private int code;
@@ -10,7 +12,7 @@ public class CommonModel {
         return code;
     }
 
-    public void setCode(int code) {
+    private void setCode(int code) {
         this.code = code;
     }
 
@@ -32,9 +34,11 @@ public class CommonModel {
 
     public void setSuccess(){
         setCode(ConstantUtil.CODE_SUCCESS);
+        setMsg(ConstantUtil.MESSAGE_SUCCESS);
     }
 
     public void setFail(){
         setCode(ConstantUtil.CODE_FAIL);
+        setMsg(ConstantUtil.MESSAGE_FAIL);
     }
 }
